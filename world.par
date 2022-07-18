@@ -1,0 +1,46 @@
+#################################################################################################################################
+#														            	#
+# PARAMETERS FOR THE SIMULATION OF A DEBRIS CLOUD RELEASED TO THE BINARY ASTEROID SYSTEM (MSK UNITS)				#
+#														            	#
+# Note: This code was developed for secular simulating the motion of a bunch of virtual tracer particles that are released to 	#
+# 	a gravitational full two-body system. Each component of the system here is viewed as an extended rigid body. The        #
+#	primary is defined as a homogenous polyhedron, and the secondary is defined as a frozen cluster of solid spheres. 	#
+#														     		#
+# Frames: SXYZ - J2000.0 ecliptic (Heliocentric inertia frame, S is solar system mass center, X towards J2000 mean equinox)  	#
+#         OXYZ - Binary orbital translational frame (whose X-, Y-, Z-axes are consistent with SXYZ)			     	#
+#	  AXaYaZa - Alpha body fixed frame (Origin at the primary mass center, with principal axes of inertia) 		     	#
+#         BXbYbZb - Beta body fixed frame (Origin at the secondary mass center, with principal axes of inertia)		     	#
+#														     		#
+################################################################################################################################# 
+#
+# Note: The Keplerian elements are calculated with respect to Epoch time JD2459856.9, in which JD indicates Julian time counting
+#    	from 2000/00/00 00:00:00 UTC) in J2000.0 ecliptic
+#
+# 1. Input filenames 
+#
+# Note: in the code, the positions and velocities of ejected particles in DebrisFile are represented in frame OXYZ	
+#
+PolyhedronAFile	= didymosa.fe	# File name of the primary polyhedral model (Alpha, ID = -2)
+PolyhedronBFile	= didymosb.fe		# File name of the primary polyhedral model (Beta, ID = -1)
+PolyA                     = polyA.txt
+PolyB                     = polyB.txt 
+DebrisFile	= Debris.txt		# File name of the debris (ID counts from 0)
+IniConFile	= world.bt	# File name of the initial conditions (at StartSize)
+#
+# 2. Solving options setting (Fehlberg's 7th and 8th Order Embedded Runge-Kutta algorithm applied in this code)
+#
+FunOption 	= 1			# Solving option, 0: step size checking-out (binary conservation); 1: do integration
+StepSize	= 1e0		# Step size of integration, unit: s
+EndStep		= 157680000 # Number of steps in intervals of StepSize
+StartStep	= 0			# Use this to change starting step numbering
+OutputInterval	= 7200			# Output interval	
+#
+# 3. Perturbational option settings: solar tide and solar radiation pressure
+#
+# Note: for option solar tide, this perturbation will be applied to both the binary components and the debris particles,
+#	while for option solar radiation pressure, we simply ignore such effect on the binary components since it would be
+#	tiny enough, and only consider its influence on the debris particles.
+#
+SolarTide	= 1			# Switch of solar tidal perturbation on debris, 1: on, 0: off
+SolarPressure	= 1			# Switch of solar radiation pressure on debris, 1: on, 0: off
+ReflectionRate	= 1.15			# Reflection rate of the debris, 1: total absorption, 2: total reflection
